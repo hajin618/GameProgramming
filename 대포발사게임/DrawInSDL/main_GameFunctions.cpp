@@ -30,7 +30,7 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 
-	g_window = SDL_CreateWindow("First Window", 100, 100, 600, 750, 0);
+	g_window = SDL_CreateWindow("First Window", 100, 100, 800, 500, 0);
 	g_renderer = SDL_CreateRenderer(g_window, -1, 0);
 
 	
@@ -59,6 +59,7 @@ int main(int argc, char* argv[]) {
 		}
 		else if (g_current_game_phase == PHASE_MAIN)
 		{
+			
 			HandleEvents_Main();
 			Update_Main();
 			Render_Main();
