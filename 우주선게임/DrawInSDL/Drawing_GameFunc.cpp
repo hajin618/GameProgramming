@@ -23,7 +23,6 @@ int m_state[130];		// 미사일 상태
 
 
 int g_m_point = 0;
-int g_m_use = 0;
 int g_elapsed_time_ms;
 
 
