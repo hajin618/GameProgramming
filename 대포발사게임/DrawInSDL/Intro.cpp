@@ -51,6 +51,18 @@ void Init_Intro()
 
 	SDL_FreeSurface(tmp_surface);
 	TTF_CloseFont(font1);
+
+
+
+	// 배경음악 로드
+	g_intro_bg_music= Mix_LoadMUS("../../Resources/intro_bg_music.mp3");
+	if (g_intro_bg_music == 0) {
+		std::cout << "Mix_LoadMUS(\"intro_bg_music.mp3\"): " << Mix_GetError() << std::endl;
+	}
+	// 배경음악의 default 볼륨 크기 (0~128)
+	Mix_VolumeMusic(128);
+	// 배경음악 재생 (fade : 점점 크게)
+	Mix_FadeInMusic(g_intro_bg_music, -1, 2000);
 }
 
 void HandleEvents_Intro()
@@ -100,4 +112,5 @@ void Clear_Intro()
 {
 	SDL_DestroyTexture(g_intro_bg_texture);
 	SDL_DestroyTexture(g_intro_font_texture);
+	Mix_FreeMusic(g_intro_bg_music);
 }

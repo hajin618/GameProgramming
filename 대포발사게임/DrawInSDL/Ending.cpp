@@ -33,7 +33,7 @@ void Init_Ending()
 	g_ending_bg_destination_rect.h = 500;
 
 
-
+	
 	// Font : Game Start
 	TTF_Font* font1 = TTF_OpenFont("../../Resources/arose.ttf", 100);
 	SDL_Color white = { 255, 255, 255, 255 };
@@ -48,6 +48,19 @@ void Init_Ending()
 
 	SDL_FreeSurface(tmp_surface);
 	TTF_CloseFont(font1);
+
+
+
+
+	// 배경음악 로드
+	g_ending_bg_music = Mix_LoadMUS("../../Resources/ending_bg_music.mp3");
+	if (g_ending_bg_music == 0) {
+		std::cout << "Mix_LoadMUS(\"intro_bg_music.mp3\"): " << Mix_GetError() << std::endl;
+	}
+	// 배경음악의 default 볼륨 크기 (0~128)
+	Mix_VolumeMusic(128);
+	// 배경음악 재생 (fade : 점점 크게)
+	Mix_FadeInMusic(g_ending_bg_music, -1, 2000);
 }
 
 void HandleEvents_Ending()
@@ -96,4 +109,5 @@ void Clear_Ending()
 {
 	SDL_DestroyTexture(g_ending_bg_texture);
 	SDL_DestroyTexture(g_ending_font_texture);
+	Mix_FreeMusic(g_ending_bg_music);
 }

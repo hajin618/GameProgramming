@@ -33,13 +33,13 @@ int main(int argc, char* argv[]) {
 	g_window = SDL_CreateWindow("First Window", 100, 100, 800, 500, 0);
 	g_renderer = SDL_CreateRenderer(g_window, -1, 0);
 
-	
+
 	InitGame();
-	
+
 	Init_Intro();
 	Init_Main();
 	Init_Ending();
-	
+
 	g_current_game_phase = PHASE_INTRO;
 	g_last_time_ms = SDL_GetTicks();
 
@@ -52,23 +52,42 @@ int main(int argc, char* argv[]) {
 
 		if (g_current_game_phase == PHASE_INTRO)
 		{
-			HandleEvents_Intro();
-			Update_Intro();
-			Render_Intro();
+			Init_Intro();
+			Clear_Ending();
+			while (g_current_game_phase == PHASE_INTRO) {
+				HandleEvents_Intro();
+				SDL_Delay(10);
+				Update_Intro();
+				SDL_Delay(10);
+				Render_Intro();
+				
+			}
 			
 		}
 		else if (g_current_game_phase == PHASE_MAIN)
 		{
+			Init_Main();
+			Clear_Intro();
+			while (g_current_game_phase == PHASE_MAIN) {
+				HandleEvents_Main();
+				SDL_Delay(10);
+				Update_Main();
+				SDL_Delay(10);
+				Render_Main();
+			}
 			
-			HandleEvents_Main();
-			Update_Main();
-			Render_Main();
 		}
 		else if (g_current_game_phase == PHASE_ENDING)
 		{
-			HandleEvents_Ending();
-			Update_Ending();
-			Render_Ending();
+			Init_Ending();
+			Clear_Main();
+			while (g_current_game_phase == PHASE_ENDING) {
+				HandleEvents_Ending();
+				SDL_Delay(10);
+				Update_Ending();
+				SDL_Delay(10);
+				Render_Ending();
+			}
 		}
 
 		g_last_time_ms = cur_time_ms;
@@ -82,7 +101,7 @@ int main(int argc, char* argv[]) {
 	SDL_DestroyRenderer(g_renderer);
 	SDL_DestroyWindow(g_window);
 
-	
+
 
 	// 프로그램 끝날 때 Audio Close
 	Mix_CloseAudio();

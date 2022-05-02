@@ -79,7 +79,10 @@ char cnt_missile_array[5];
 SDL_Rect g_cnt_missile_rect;
 SDL_Texture* g_cnt_missile_texture;
 
-
+// 효과음
+Mix_Chunk* g_gun_sound;
+Mix_Chunk* g_get_on_off;
+Mix_Chunk* g_get_item;
 
 void Init_Main() {
 	g_elapsed_time_ms = 0;
@@ -209,8 +212,12 @@ void Init_Main() {
 	SDL_FreeSurface(onSpaceship_surface);
 	TTF_CloseFont(font1);
 
-	// missile cnt 출력
 	
+	
+	// 효과음 로드
+	g_gun_sound = Mix_LoadWAV("../../Resources/missile_sound.WAV");
+	g_get_on_off = Mix_LoadWAV("../../Resources/get_on_off.WAV");
+	g_get_item = Mix_LoadWAV("../../Resources/get_item.WAV");
 }
 
 void HandleEvents_Main() {
@@ -229,6 +236,7 @@ void HandleEvents_Main() {
 					cannon_angle = 270;
 
 					if (cnt_missile > 0) {
+						Mix_PlayChannel(-1, g_gun_sound, 0);
 						cnt_missile -= 1;
 
 						// 미사일 발사
@@ -252,6 +260,7 @@ void HandleEvents_Main() {
 					cannon_angle = 90;
 
 					if (cnt_missile > 0) {
+						Mix_PlayChannel(-1, g_gun_sound, 0);
 						cnt_missile -= 1;
 
 						// 미사일 발사
@@ -274,6 +283,7 @@ void HandleEvents_Main() {
 					cannon_angle = 0;
 
 					if (cnt_missile > 0) {
+						Mix_PlayChannel(-1, g_gun_sound, 0);
 						cnt_missile -= 1;
 
 						// 미사일 발사
@@ -294,6 +304,7 @@ void HandleEvents_Main() {
 					cannon_angle = 180;
 
 					if (cnt_missile > 0) {
+						Mix_PlayChannel(-1, g_gun_sound, 0);
 						cnt_missile -= 1;
 
 						// 미사일 발사
@@ -314,6 +325,7 @@ void HandleEvents_Main() {
 						man_y>g_box_destination_rect.y - g_man_destination_rect.h &&
 						man_y < g_box_destination_rect.y + g_box_destination_rect.h)
 					{
+						Mix_PlayChannel(-1, g_get_item, 0);
 						cnt_missile = 5;
 						sprintf(cnt_missile_array, "%d", cnt_missile);
 					}
@@ -322,6 +334,7 @@ void HandleEvents_Main() {
 					onSpaceship = false;
 					man_x = 380;
 					man_y = 250;
+					Mix_PlayChannel(-1, g_get_on_off, 0);
 				}
 				else if (onSpaceship == false) {
 					if (man_x > g_cannon_destination_rect.x - g_man_destination_rect.w &&
@@ -330,8 +343,8 @@ void HandleEvents_Main() {
 						man_y < g_cannon_destination_rect.y + g_cannon_destination_rect.h)
 					{
 						onSpaceship = true;
+						Mix_PlayChannel(-1, g_get_on_off, 0);
 						
-						//탑승중 출력
 					}
 				}
 
@@ -377,26 +390,26 @@ void Update_Main() {
 	g_missile_destination_rect.y = m_y_vector[g_m_point-1];
 
 	if (man_state[1] == true) {
-		man_x -= 10;
+		man_x -= 8;
 	}
 	if (man_state[2] == true) {
-		man_x += 10;
+		man_x += 8;
 	}
 	if (man_state[3] == true) {
-		man_y -= 10;
+		man_y -= 8;
 	}
 	if (man_state[4] == true) {
-		man_y += 10;
+		man_y += 8;
 	}
 
-	if (man_x >= 800) {
-		man_x = 800;
+	if (man_x >= 760) {
+		man_x = 760;
 	}
 	else if (man_x <= 0) {
 		man_x = 0;
 	}
-	if (man_y >= 500) {
-		man_y = 500;
+	if (man_y >= 440) {
+		man_y = 440;
 	}
 	else if (man_y <= 0) {
 		man_y = 0;
@@ -514,4 +527,9 @@ void Clear_Main() {
 	SDL_DestroyTexture(g_box_texture);
 	SDL_DestroyTexture(g_cannon_texture);
 	SDL_DestroyTexture(g_missile_texture);
+	SDL_DestroyTexture(g_cnt_missile_texture);
+	SDL_DestroyTexture(g_onSpaceship_texture);
+	Mix_FreeChunk(g_gun_sound);
+	Mix_FreeChunk(g_get_item);
+	Mix_FreeChunk(g_get_on_off);
 }
