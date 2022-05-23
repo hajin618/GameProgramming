@@ -41,6 +41,7 @@ Intro::Intro()
 Intro::~Intro()
 {
 	SDL_DestroyTexture(title_texture_);
+	SDL_DestroyTexture(start_texture_);
 }
 
 void Intro::Update()
@@ -50,7 +51,7 @@ void Intro::Update()
 
 void Intro::Render()
 {
-	SDL_SetRenderDrawColor(g_renderer, 255,255,255,255);
+	SDL_SetRenderDrawColor(g_renderer, 200,191,231,255);
 	SDL_RenderClear(g_renderer); // clear the renderer to the draw color
 
 	SDL_RenderCopy(g_renderer, title_texture_, &title_source_rect_, &title_destination_rect_);

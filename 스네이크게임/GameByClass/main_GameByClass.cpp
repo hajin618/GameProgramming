@@ -48,24 +48,47 @@ int main(int argc, char* argv[])
 
 		if ( g_current_game_phase ==  PHASE_INTRO )
 		{
-			intro.HandleEvents();
-			intro.Update();
-			intro.Render();
+			Intro intro;
+			ending.~Ending();
+			while (g_current_game_phase == PHASE_INTRO) {
+				intro.HandleEvents();
+				SDL_Delay(3);
+				intro.Update();
+				SDL_Delay(3);
+				intro.Render();
+			}
+			
 		}
 		else if ( g_current_game_phase == PHASE_STAGE1 )
 		{
-			stage1.HandleEvents();
-			stage1.Update();
-			stage1.Render();
+			Stage1 stage1;
+			intro.~Intro();
+			while (g_current_game_phase == PHASE_STAGE1) {
+				stage1.HandleEvents();
+				SDL_Delay(3);
+				stage1.Update();
+				SDL_Delay(3);
+				stage1.Render();
+			}
+			
 		}
-		else if ( g_current_game_phase == PHASE_ENDING )
+		
+		if ( g_current_game_phase == PHASE_ENDING )
 		{
-			ending.HandleEvents();
-			ending.Update();
-			ending.Render();
+			Ending ending;
+			stage1.~Stage1();
+			while (g_current_game_phase == PHASE_ENDING) {
+				ending.HandleEvents();
+				SDL_Delay(3);
+				ending.Update();
+				SDL_Delay(3);
+				ending.Render();
+			}
+			
 		}
-
+		
 		g_last_time_ms = cur_time_ms;
+		SDL_Delay(1);
 	}
 
 	ClearGame();

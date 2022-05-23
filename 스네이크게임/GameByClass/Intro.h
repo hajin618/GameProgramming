@@ -15,6 +15,7 @@ public:
 	void Update();
 	void Render();
 
+
 // private : 외부에서 참조 불가능
 // 전역변수
 private:
